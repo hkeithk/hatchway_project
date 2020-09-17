@@ -8,6 +8,7 @@
   flex-direction: row;
   margin-left: 30px;
   margin-top: 30px;
+  margin-right: 30px;
   border-radius: 10px;
 }
 
@@ -26,4 +27,18 @@
 .card--inner-text {
   text-align: left;
   margin-left: 30px;
+}
+
+.button--container-closed {
+  margin-left: auto;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.expand-btn {
+  font-size: 50px;
+  border: none;
+  background-color: white;
+  color: grey;
+  outline: none;
 }
