@@ -5,6 +5,7 @@ import StudentCard from 'components/studentCard/studentCard';
 
 function App() {
   const [data, setData] = useState([]);
+  const [filters, setFilters] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchName, setSearchName] = useState('');
   const [searchTag, setSearchTag] = useState('');
@@ -28,6 +29,7 @@ function App() {
           studentsWithTags.push(taggedStudent);
         });
         setData(studentsWithTags);
+        setFilters(studentsWithTags);
         setLoading(false);
       } catch (err) {
         return <p>error</p>;
@@ -52,12 +54,23 @@ function App() {
     return <p>Loading...</p>;
   }
 
-  const handleNameSearch = (e) => {
-    setSearchName(e.target.value);
-  };
+  // const handleNameSearch = (e) => {
+  //   setSearchName(e.target.value);
+  // };
 
   const handleTagSearch = (e) => {
     setSearchTag(e.target.value);
+  };
+
+  const handleNameFilter = (searchName) => {
+    let filteredStudents = [];
+    data.forEach((student) => {
+      let fullName = `${student.firstName} ${student.lastName}`;
+      fullName.toLowerCase().includes(searchName) &&
+        filteredStudents.push(student);
+    });
+    setSearchName(searchName);
+    setFilters(filteredStudents);
   };
 
   return (
@@ -69,7 +82,8 @@ function App() {
           className='App--input'
           placeholder='Search by name'
           value={searchName}
-          onChange={handleNameSearch}
+          // onChange={handleNameSearch}
+          onChange={(e) => handleNameFilter(e.target.value.toLowerCase())}
         />
         <input
           id='tag-input'
@@ -79,7 +93,7 @@ function App() {
           value={searchTag}
           onChange={handleTagSearch}
         />
-        {data
+        {/* {data
           .filter((student) => {
             if (
               student.firstName.toLowerCase().includes(searchName) ||
@@ -87,22 +101,22 @@ function App() {
             ) {
               return true;
             }
-          })
-          .map((student) => (
-            <StudentCard
-              key={`s-${student.firstName}-${student.lastName}`}
-              img={student.pic}
-              fn={student.firstName}
-              ln={student.lastName}
-              email={student.email}
-              company={student.company}
-              skill={student.skill}
-              grades={student.grades}
-              addTag={addTag}
-              tags={student.tags}
-              idx={data.indexOf(student)}
-            />
-          ))}
+          }) */}
+        {filters.map((student) => (
+          <StudentCard
+            key={`s-${student.firstName}-${student.lastName}`}
+            img={student.pic}
+            fn={student.firstName}
+            ln={student.lastName}
+            email={student.email}
+            company={student.company}
+            skill={student.skill}
+            grades={student.grades}
+            addTag={addTag}
+            tags={student.tags}
+            idx={data.indexOf(student)}
+          />
+        ))}
       </div>
     </div>
   );
