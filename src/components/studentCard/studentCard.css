@@ -42,3 +42,8 @@
   color: grey;
   outline: none;
 }
+
+.tag--container-row {
+  display: flex;
+  flex-direction: row;
+}

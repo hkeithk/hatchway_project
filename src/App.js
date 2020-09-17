@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
-import StudentCard from 'components/studentCard';
+import StudentCard from 'components/studentCard/studentCard';
 
 function App() {
-  const [data, setData] = useState({ students: [] });
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchName, setSearchName] = useState('');
   const [searchTag, setSearchTag] = useState('');
 
   //fetch data on first render only, set data and conditionally render a loading message
+  //if data has not been returned
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,15 +19,15 @@ function App() {
         const result = await axios.get(
           'https://www.hatchways.io/api/assessment/students'
         );
-        let studentsWithTag = [];
 
-        result.students.map((student) => {
-          let addTagAttr = student;
-          addTagAttr.tags = [];
-          studentsWithTag.push(student);
+        const studentsWithTags = [];
+
+        result.data.students.forEach((student) => {
+          let taggedStudent = student;
+          taggedStudent.tags = [];
+          studentsWithTags.push(taggedStudent);
         });
-
-        setData(studentsWithTag);
+        setData(studentsWithTags);
         setLoading(false);
       } catch (err) {
         return <p>error</p>;
@@ -34,7 +35,18 @@ function App() {
     };
     fetchData();
   }, []);
-  console.log(data);
+
+  //create an addtag function
+  //pass addtag function into child component
+  //create an addtag component that will use addTag function
+
+  //might be tricky because I had to modify the index values, so double check for errors here
+  const addTag = (tagValue, idx) => {
+    const students = [...data];
+    students[idx].tags.push(tagValue);
+    setData(students);
+    console.log(data);
+  };
 
   if (loading) {
     return <p>Loading...</p>;
@@ -67,7 +79,7 @@ function App() {
           value={searchTag}
           onChange={handleTagSearch}
         />
-        {data.students
+        {data
           .filter((student) => {
             if (
               student.firstName.toLowerCase().includes(searchName) ||
@@ -86,6 +98,9 @@ function App() {
               company={student.company}
               skill={student.skill}
               grades={student.grades}
+              addTag={addTag}
+              tags={student.tags}
+              idx={data.indexOf(student)}
             />
           ))}
       </div>

@@ -1,14 +1,29 @@
 import React, { useState } from 'react';
 import './studentCard.css';
+import TagInputField from 'components/tagInputField/tagInputField';
+import Tag from 'components/tag/tag';
 
 export const StudentCard = (props) => {
-  const { img, fn, ln, email, company, skill, grades } = props;
+  const {
+    img,
+    fn,
+    ln,
+    email,
+    company,
+    skill,
+    grades,
+    addTag,
+    idx,
+    tags,
+  } = props;
   const [open, setOpen] = useState(false);
 
   //calculate the sum total
   const average = grades.reduce(function (acc, next) {
     return Number(acc) + Number(next);
   });
+
+  // console.log(idx);
 
   const allGrades = [];
   for (let i = 1; i < grades.length + 1; i += 1) {
@@ -18,6 +33,12 @@ export const StudentCard = (props) => {
       </p>
     );
   }
+
+  //TODO: add check to make sure there arent duplicate tags
+  const allTags = [];
+  tags.forEach((tag, val) => {
+    allTags.push(<Tag tag={tag} key={`tag-${val.toString()}`} />);
+  });
 
   const handleClick = () => {
     setOpen(!open);
@@ -34,7 +55,15 @@ export const StudentCard = (props) => {
           Email: {email} <br></br> Company: {company} <br></br> Skill: {skill}{' '}
           <br></br> Average: {average / 8}%{' '}
         </p>
-        {open ? allGrades : <></>}
+        {open ? (
+          <>
+            {allGrades}
+            <div className='tag--container-row'>{allTags} &nbsp;</div>
+            <TagInputField addTag={addTag} idx={idx} />
+          </>
+        ) : (
+          <></>
+        )}
       </div>
       <div className='button--container-closed'>
         <button className='expand-btn' onClick={handleClick}>
