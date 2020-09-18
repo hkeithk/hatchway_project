@@ -20,7 +20,7 @@ export const TagInputField = (props) => {
       <input
         id='tag-input'
         placeholder='Add a tag'
-        className='tag-input'
+        className='add-tag-input'
         value={tagValue}
         onChange={tagInputChangeHandler}
         type='text'

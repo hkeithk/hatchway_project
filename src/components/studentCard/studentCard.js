@@ -18,7 +18,6 @@ export const StudentCard = (props) => {
   } = props;
   const [open, setOpen] = useState(false);
 
-  //calculate the sum total
   const average = grades.reduce(function (acc, next) {
     return Number(acc) + Number(next);
   });
@@ -32,7 +31,6 @@ export const StudentCard = (props) => {
     );
   }
 
-  //TODO: add check to make sure there arent duplicate tags
   const allTags = [];
   tags.forEach((tag, val) => {
     allTags.push(<Tag tag={tag} key={`tag-${val.toString()}`} />);
@@ -46,7 +44,7 @@ export const StudentCard = (props) => {
     <div className='card--outer'>
       <img className='card--img-normal' src={img} alt='profile' />
       <div className='card--inner-text'>
-        <h1>
+        <h1 className='h1--nomargin'>
           {fn.toUpperCase()} {ln.toUpperCase()}
         </h1>
         <p>

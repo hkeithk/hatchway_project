@@ -20,13 +20,3 @@
 .App--container::-webkit-scrollbar {
   display: none;
 }
-
-.App--input {
-  width: 100%;
-  border-style: none none solid none;
-  height: 50px;
-  margin-left: 10px;
-  margin-right: 10px;
-  font-size: 35px;
-  color: grey;
-}

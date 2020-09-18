@@ -1,13 +1,9 @@
-.add-tag-input {
-  width: 70%;
+.input--field {
+  width: 100%;
   border-style: none none solid none;
   height: 50px;
   margin-left: 10px;
   margin-right: 10px;
-  font-size: 15px;
+  font-size: 35px;
   color: grey;
-}
-
-.add-tag-input:focus {
-  outline: none;
 }

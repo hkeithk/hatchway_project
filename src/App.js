@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
 import StudentCard from 'components/studentCard/studentCard';
+import FilterInputField from 'components/filterInputField/filterInputField';
 
 function App() {
   const [data, setData] = useState([]);
@@ -11,7 +12,6 @@ function App() {
   const [searchTag, setSearchTag] = useState([]);
 
   //fetch data on first render only, set data and conditionally render a loading message
-  //if data has not been returned
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,17 +32,12 @@ function App() {
         setFilters(studentsWithTags);
         setLoading(false);
       } catch (err) {
-        return <p>error</p>;
+        return <p>An error has occured.</p>;
       }
     };
     fetchData();
   }, []);
 
-  //create an addtag function
-  //pass addtag function into child component
-  //create an addtag component that will use addTag function
-
-  //might be tricky because I had to modify the index values, so double check for errors here
   const addTag = (tagValue, idx) => {
     const students = [...data];
     students[idx].tags.push(tagValue);
@@ -64,6 +59,8 @@ function App() {
     setFilters(filteredStudents);
   };
 
+  // if searchTag is empty, render all students and clear the tag search
+  // this is to ensure that the students are reset if a tag is searched and cleared
   const handleTagFilter = (searchTag) => {
     if (searchTag) {
       let filteredStudents = [];
@@ -80,28 +77,25 @@ function App() {
     }
   };
 
+  // map through the filter list and render students
   return (
     <div className='App'>
       <div className='App--container'>
-        <input
-          id='name-input'
-          type='text'
-          className='App--input'
-          placeholder='Search by name'
+        <FilterInputField
+          filterId='name'
+          text='name'
           value={searchName}
-          onChange={(e) => handleNameFilter(e.target.value)}
+          handler={handleNameFilter}
         />
-        <input
-          id='tag-input'
-          type='text'
-          className='App--input'
-          placeholder='Search by tags'
+        <FilterInputField
+          filterId='tag'
+          text='tag'
           value={searchTag}
-          onChange={(e) => handleTagFilter(e.target.value)}
+          handler={handleTagFilter}
         />
         {filters.map((student) => (
           <StudentCard
-            key={`s-${data.indexOf(student)}-${student.email.toString()}`}
+            key={`s-${data.indexOf(student)}`}
             img={student.pic}
             fn={student.firstName}
             ln={student.lastName}

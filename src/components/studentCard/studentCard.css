@@ -1,4 +1,4 @@
-/* use BEM structuring */
+/* (attempted) BEM structure */
 .App {
   text-align: center;
 }
@@ -46,4 +46,9 @@
 .tag--container-row {
   display: flex;
   flex-direction: row;
+}
+
+.h1--nomargin {
+  padding: 0;
+  margin: 0;
 }
