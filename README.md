@@ -19,3 +19,5 @@ Overall super fun little side assessment and some things I took away:
  - Better understanding of my knowledge of react/JS
  - Pinpoints my lack of understanding in certain areas, reinforced others
  - Good experience to try styling/ approachs that I haven't used in other projects for better breadth of knowledge. 
+ - Should add unit tests in the future just for practice
+ 
