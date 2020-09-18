@@ -7,8 +7,8 @@ function App() {
   const [data, setData] = useState([]);
   const [filters, setFilters] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [searchName, setSearchName] = useState('');
-  const [searchTag, setSearchTag] = useState('');
+  const [searchName, setSearchName] = useState([]);
+  const [searchTag, setSearchTag] = useState([]);
 
   //fetch data on first render only, set data and conditionally render a loading message
   //if data has not been returned
@@ -47,20 +47,11 @@ function App() {
     const students = [...data];
     students[idx].tags.push(tagValue);
     setData(students);
-    console.log(data);
   };
 
   if (loading) {
     return <p>Loading...</p>;
   }
-
-  // const handleNameSearch = (e) => {
-  //   setSearchName(e.target.value);
-  // };
-
-  const handleTagSearch = (e) => {
-    setSearchTag(e.target.value);
-  };
 
   const handleNameFilter = (searchName) => {
     let filteredStudents = [];
@@ -73,6 +64,22 @@ function App() {
     setFilters(filteredStudents);
   };
 
+  const handleTagFilter = (searchTag) => {
+    if (searchTag) {
+      let filteredStudents = [];
+      data.forEach((student) => {
+        student.tags.forEach((tag) => {
+          tag.includes(searchTag) && filteredStudents.push(student);
+        });
+      });
+      setSearchTag(searchTag);
+      setFilters(filteredStudents);
+    } else {
+      setSearchTag([]);
+      setFilters(data);
+    }
+  };
+
   return (
     <div className='App'>
       <div className='App--container'>
@@ -82,8 +89,7 @@ function App() {
           className='App--input'
           placeholder='Search by name'
           value={searchName}
-          // onChange={handleNameSearch}
-          onChange={(e) => handleNameFilter(e.target.value.toLowerCase())}
+          onChange={(e) => handleNameFilter(e.target.value)}
         />
         <input
           id='tag-input'
@@ -91,20 +97,11 @@ function App() {
           className='App--input'
           placeholder='Search by tags'
           value={searchTag}
-          onChange={handleTagSearch}
+          onChange={(e) => handleTagFilter(e.target.value)}
         />
-        {/* {data
-          .filter((student) => {
-            if (
-              student.firstName.toLowerCase().includes(searchName) ||
-              student.lastName.toLowerCase().includes(searchName)
-            ) {
-              return true;
-            }
-          }) */}
         {filters.map((student) => (
           <StudentCard
-            key={`s-${student.firstName}-${student.lastName}`}
+            key={`s-${data.indexOf(student)}-${student.email.toString()}`}
             img={student.pic}
             fn={student.firstName}
             ln={student.lastName}

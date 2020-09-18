@@ -23,8 +23,6 @@ export const StudentCard = (props) => {
     return Number(acc) + Number(next);
   });
 
-  // console.log(idx);
-
   const allGrades = [];
   for (let i = 1; i < grades.length + 1; i += 1) {
     allGrades.push(
